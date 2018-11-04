@@ -12,6 +12,8 @@ session_start();
 echo "<div align='center'>";
 echo "Bienvenido: " . $_SESSION['username'] . "<br/>";
 echo "<a href='logout.php'>Cerrar Sesión</a>";
+echo "<br/>Para ver perfiles de otros usuarios haz clic <a href='explorar.php'>aqu&iacute;</a>";
+echo "<br/>Para agregar amigos haz clic <a href='amigos.php'>aqu&iacute;</a>";
 echo "</div>";
 ?>
 <table>
@@ -27,7 +29,6 @@ echo "</div>";
 	</tr>
 </table>
 <?php
-
 $query = "SELECT ruta FROM publicaciones WHERE usuario = '" . $_SESSION['username'] . "'";
 if ($resultado = $conexion->query($query)) {
 	echo "<table><tr>";
