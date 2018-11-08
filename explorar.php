@@ -6,30 +6,25 @@
 	</style>
 </head>
 <body>
-<form method="get">
-	Buscar: <input type="text" name="nombre">
-	<input type="submit">
-</form>
 <?php
-$usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
+
 include("connect.php");
 session_start();
 
+echo '<form method="post" action="perfil.php"><input type="submit" value="Volver"></form>';
+$consulta = "SELECT usuario2 FROM amigos WHERE usuario = '" . $_SESSION['username'] . "'";
+if ($resultado = $conexion->query($consulta)) {
+	echo "<table>";
+   	while ($fila = $resultado->fetch_row()) {
+   		printf ("<tr><td>" . $fila[0] . "</td><td><form method='get'><input type='hidden' name='nombre' value='$fila[0]'><input type='submit' value='Ver perfil'></form></td></tr>");
+   	}
+   	$resultado->close();
+}
+$usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
 if ($usuario != null){
 	echo "Estas viendo el perfil del usuario: " . $usuario;
 }
 
-echo '<form method="post" action="perfil.php">
-	<input type="submit" value="volver">
-</form>';
-$consulta = "SELECT usuario FROM cuenta";
-if ($resultado = $conexion->query($consulta)) {
-	echo "<table>";
-   	while ($fila = $resultado->fetch_row()) {
-   		printf ("<tr><td>" . $fila[0] . "</td></tr>");
-   	}
-   	$resultado->close();
-}
 $query = "SELECT ruta FROM publicaciones WHERE usuario = '" . $usuario . "'";
 if ($resultado = $conexion->query($query)) {
 	echo "<table><tr>";

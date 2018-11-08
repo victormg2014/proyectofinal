@@ -14,13 +14,14 @@ echo "Bienvenido: " . $_SESSION['username'] . "<br/>";
 echo "<a href='logout.php'>Cerrar Sesión</a>";
 echo "<br/>Para ver perfiles de otros usuarios haz clic <a href='explorar.php'>aqu&iacute;</a>";
 echo "<br/>Para agregar amigos haz clic <a href='amigos.php'>aqu&iacute;</a>";
+echo "<br/>Para chatear haz clic <a href='chat.php'>aqu&iacute;</a>";
 echo "</div>";
 ?>
 <table>
 	<tr>
 		<td>
 			<form enctype="multipart/form-data" action="subir.php" method="POST">
-			<input name="subir" type="file" />
+			<input name="subir" type="file" required/>
 			<input type="submit" value="Subir archivo" />
 			</form>
 		</td>

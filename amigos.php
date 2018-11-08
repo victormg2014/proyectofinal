@@ -12,6 +12,7 @@
 <?php
 include("connect.php");
 session_start();
+
 $usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
 echo "<div align='center'>";
 echo "Bienvenido: " . $_SESSION['username'] . "<br/>";
