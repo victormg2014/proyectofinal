@@ -1,6 +1,6 @@
 <?php
-	include "../connect.php";
-	session_start();
+include("../connect.php");
+session_start();
 	///consultamos a la base
 	$consulta = "SELECT * FROM chat WHERE (usuario = '" . $_SESSION['username'] . "' AND destino = '" . $_SESSION['destino'] . "') OR (usuario = '" . $_SESSION['destino'] . "' AND destino = '" . $_SESSION['username'] . "') ORDER BY id DESC";
 	$ejecutar = $conexion->query($consulta); 

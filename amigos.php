@@ -10,14 +10,7 @@
 	<input type="submit">
 </form>
 <?php
-include("connect.php");
-session_start();
-
 $usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
-echo "<div align='center'>";
-echo "Bienvenido: " . $_SESSION['username'] . "<br/>";
-echo "<a href='logout.php'>Cerrar Sesión</a>";
-echo "<form method='post' action='perfil.php'><input type='submit' value='volver'></form></div>";
 
 // Validar si el usuario que se va a agregar existe, si ya tiene una petición, o si ya es amigo.
 if ($usuario != $_SESSION['username']){
@@ -64,13 +57,13 @@ $query = "SELECT usuario2 FROM amigos WHERE usuario = '" . $_SESSION['username']
 $result = $conexion->query($query);
 $count = mysqli_num_rows($result);
 if ($count != null) {
-	if ($resultado = $conexion->query($query)) {
-		echo "<table><tr>Lista de amigos:</tr>";
-		while ($fila = $resultado->fetch_row()) {
-	    	printf ("<tr><td>" . $fila[0] . "</td><td><form method='post' action='borrar.php'><input type='hidden' name='usuario' value='" . $fila[0] . "'><input type='submit' value='Borrar'></form></td></tr>");
+	if ($amigos = $conexion->query($query)) {
+		echo "<table><tr><strong>Lista de amigos:</strong></tr>";
+		while ($fila = $amigos->fetch_row()) {
+	    	printf ("<tr><td>" . $fila[0] . "</td><td><form method='post' action='borrar.php'><input type='hidden' name='usuario' value='" . $fila[0] . "'><input type='submit' value='Borrar'></form></td><td><form method='post' action='chat/iniciar.php'><input type='hidden' name='destino' value='" . $fila[0] . "'><input type='submit' value='Chatear'></form></td></tr>");
 		}
 		echo "</table>";
-	   	$resultado->close();
+	   	$amigos->close();
 	}
 }
 
@@ -80,14 +73,14 @@ $result = $conexion->query($query);
 $count = mysqli_num_rows($result);
 
 if ($count != null) {
-	if ($resultado = $conexion->query($query)) {
+	if ($amigos = $conexion->query($query)) {
 		echo "<table>";
-		echo "<tr>Tienes peticiones de amistad:</tr>";
-		while ($fila = $resultado->fetch_row()) {
+		echo "<tr><strong>Peticiones de amistad recibidas:</strong></tr>";
+		while ($fila = $amigos->fetch_row()) {
 	    	printf ("<tr><td>" . $fila[0] . "</td><td><form method='post' action='responder.php'><input type='hidden' name='aceptar' value='$fila[0]'><input type='submit' value='Aceptar'></form></td><td><form method='post' action='responder.php'><input type='hidden' name='rechazar' value='$fila[0]'><input type='submit' value='Cancelar'></form></td></tr>");
 		}
 		echo "</table>";
-	   	$resultado->close();
+	   	$amigos->close();
 	}
 }
 
@@ -97,14 +90,14 @@ $result = $conexion->query($query);
 $count = mysqli_num_rows($result);
 
 if ($count != null) {
-	if ($resultado = $conexion->query($query)) {
+	if ($amigos = $conexion->query($query)) {
 		echo "<table>";
-		echo "<tr>Has enviado las siguientes peticiones de amistad:</tr>";
-		while ($fila = $resultado->fetch_row()) {
+		echo "<tr><strong>Peticiones de amistad enviadas:</strong></tr>";
+		while ($fila = $amigos->fetch_row()) {
 	    	printf ("<tr><td>" . $fila[1] . "</td><td><form method='post' action='cancelar.php'><input type='hidden' name='nombre' value='$fila[1]'><input type='submit' value='Cancelar'></form></td></tr>");
 		}
 		echo "</table>";
-	   	$resultado->close();
+	   	$amigos->close();
 	}
 }
 

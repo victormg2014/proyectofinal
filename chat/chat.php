@@ -1,12 +1,3 @@
-<?php
-include "../connect.php";
-session_start();
-$destino = isset($_POST['destino']) ? $_POST['destino'] : '';
-if ($destino != null){
-$_SESSION['destino'] = $destino;
-}
-echo "<div align='center'>" . $_SESSION['username'] . "-" . $_SESSION['destino'] . "</div><p/>";
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +14,7 @@ echo "<div align='center'>" . $_SESSION['username'] . "-" . $_SESSION['destino']
 				}
 			}
 
-			req.open('GET', 'chat2.php', true);
+			req.open('GET', 'chat/chat2.php', true);
 			req.send();
 		}
 
@@ -32,7 +23,11 @@ echo "<div align='center'>" . $_SESSION['username'] . "-" . $_SESSION['destino']
 	</script>
 </head>
 <body onload="ajax();">
-
+	<?php
+		$destino = isset($_SESSION['destino']) ? $_SESSION['destino'] : '';
+		if ($destino != null){
+	?>
+	<h2>Chat: <a style="color: blue"><?php echo $_SESSION['username'] . "-" . $_SESSION['destino'] ?></a></h2>
 	<div id="contenedor">
 		<div id="caja-chat">
 			<div id="chat"></div>
@@ -58,9 +53,18 @@ echo "<div align='center'>" . $_SESSION['username'] . "-" . $_SESSION['destino']
 					echo "<embed loop='false' src='sonido.mp3' hidden='true' autoplay='true'>";
 				}
 			}
-
 		?>
+		<form method='post' action='chat/desconectar.php'><input type='submit' value='Salir del chat'></form>
 	</div>
-	<form method='post' action='desconectar.php'><input type='submit' value='Salir del chat'></form>
+	<?php
+	} else {
+	?>
+	<h2>No hay chats abiertos</h2>
+	<?php
+	}
+	?>
 </body>
 </html>
+<?php
+
+?>

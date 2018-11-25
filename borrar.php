@@ -13,5 +13,5 @@ $query = "DELETE FROM amigos WHERE usuario = '" . $_SESSION['username'] . "' AND
 $query2 = "DELETE FROM amigos WHERE usuario = '$usuario' AND usuario2 = '" . $_SESSION['username'] . "'";
 $conexion->query($query);
 $conexion->query($query2);
-echo "<div align='center'>Se ha eliminado a $usuario de la lista de amigos.<br/><a href='perfil.php'>Volver</a></div>";
+header('Location: perfil.php');
 ?>

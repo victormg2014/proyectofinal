@@ -30,5 +30,5 @@ if ($rechazar != null){
 		echo "<div align='center'>Se ha producido un error.</div>";
 	}
 }
-
+header('Location: perfil.php');
 ?>
