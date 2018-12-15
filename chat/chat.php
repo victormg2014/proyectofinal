@@ -29,14 +29,13 @@
 	?>
 	<h2>Chat: <a style="color: blue"><?php echo $_SESSION['username'] . "-" . $_SESSION['destino'] ?></a></h2>
 	<div id="contenedor">
-		<div id="caja-chat">
-			<div id="chat"></div>
-		</div>
 
-		<form method="POST" action="chat.php">		
-			<textarea name="mensaje" placeholder="Ingresa tu mensaje"></textarea>
-			<input type="submit" name="enviar" value="Enviar">
-		</form>
+		<table style="width: 100%;"><form method="POST" action="chat.php">
+			<tr><td><textarea name="mensaje" placeholder="Ingresa tu mensaje" style="width: 100%;" maxlength="150" required></textarea></td>
+			<td><input type="submit" name="enviar" value="Enviar" style=" height: 50px;"></td></tr>
+		</form></table>
+
+		<div id="chat" style="overflow:scroll;height:300px;border:1px solid #337DFF;overflow-x: hidden;"></div>
 
 		<?php
 			if (isset($_POST['enviar'])) {
