@@ -8,13 +8,14 @@ if ($sesion != null){
 <html>
 <head>
 	<style>
-		body {background-color: coral;}
 		#centrar {margin-top: 20%;}
 	</style>
+	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="chat/style.css">
 </head>
 <body>
 	<div align="center">
-		<form method="post" action="enviar.php">
+		<form method="post" action="enviar.php" enctype="multipart/form-data">
 			<h1>Registro</h1>
 			<table>
 				<tr>
@@ -24,7 +25,9 @@ if ($sesion != null){
 				</tr><tr>
 					<td>Contraseña: </td><td><input type="password" name="clave" required></td>
 				</tr><tr>	
-					<td><input type="submit" value="Acceder"></td><td></td>
+					<td>Foto de perfil: </td><td><input type="file" name="foto" required/></td>
+				</tr><tr>
+					<td><input type="submit" value="Crear"></td><td></td>
 				</tr>
 			</table>
 		</form>

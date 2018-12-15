@@ -2,7 +2,18 @@
 <head>
 	<style>
 		body {background-color: coral;}
+		.miniatura {width: 25px; height: 25px;}
+		#icono{
+			list-style:none;
+		}
+		#hover-content {
+    		display:none;
+		}
+		#icono:hover #hover-content {
+    		display:block;
+		}
 	</style>
+	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 <form method="get">
@@ -58,9 +69,72 @@ $result = $conexion->query($query);
 $count = mysqli_num_rows($result);
 if ($count != null) {
 	if ($amigos = $conexion->query($query)) {
-		echo "<table><tr><strong>Lista de amigos:</strong></tr>";
+		$num = 0;
+		echo "<strong>Lista de amigos:</strong><table>";
 		while ($fila = $amigos->fetch_row()) {
-	    	printf ("<tr><td>" . $fila[0] . "</td><td><form method='post' action='borrar.php'><input type='hidden' name='usuario' value='" . $fila[0] . "'><input type='submit' value='Borrar'></form></td><td><form method='post' action='chat/iniciar.php'><input type='hidden' name='destino' value='" . $fila[0] . "'><input type='submit' value='Chatear'></form></td></tr>");
+			$num = $num + 1;
+      		$perfil = 'perfil' . $num;
+      		$borrar = 'borrar' . $num;
+      		$chatear = 'chatear' . $num;
+			echo "<tr><td>";
+			$num = $num + 1;
+      $formulario = 'formulario' . $num;
+      printf ("<form name='$borrar' method='post' action='borrar.php'><input type='hidden' name='usuario' value= '$fila[0]'></form>");
+      printf ("<form name='" . $chatear . "' method='post' action='chat/iniciar.php'><input type='hidden' name='destino' value='" . $fila[0] . "'></form>");
+      printf ("<form name='" . $perfil . "' method='post' action='explorar.php'><input type='hidden' name='nombre' value='$fila[0]'></form>");
+      ?>
+      <li style="list-style:none;">
+        <div class="d-flex bd-highlight">
+          <div class="img_cont">
+            <?php
+            echo "<img src='img/perfiles/" . $fila[0] . "/" . $fila[0] . ".jpg' class='rounded-circle user_img'>";
+            $query = "SELECT usuario FROM usuarios_online WHERE usuario = '" . $fila[0] . "'";
+            $result = $conexion->query($query);
+            $count = mysqli_num_rows($result);
+            if ($count != null) {
+              printf ("<span class='online_icon'></span>");
+              ?>
+              </div>
+              <div class="user_info">
+                <span><?php echo $fila[0]; ?></span>
+                <p><?php echo "En l&iacute;nea"; ?></p>
+              </div>
+              </td><td>
+              	<span onClick='javascript:document.<?php echo $perfil ?>.submit();' id='icono' alt="Ver perfil" title="Ver perfil">
+              	<img src='img/casa.png' class='miniatura' >
+              	</span><span onClick='javascript:document.<?php echo $chatear ?>.submit();' id='icono' alt="Enviar mensaje" title="Enviar mensaje">
+              	<img src='img/email.png' class='miniatura'>
+              	</span><span onClick='javascript:document.<?php echo $borrar ?>.submit();' id='icono' alt="Borrar amigo" title="Borrar amigo">
+              	<img src='img/cancelar.png' class='miniatura'>
+              	</span>
+              </td></tr>
+              </div>
+            <?php
+            }
+            else {
+              printf ("<span class='online_icon offline'></span>");
+              ?>
+              </div>
+              <div class="user_info">
+                <span><?php echo $fila[0]; ?></span>
+                <p><?php echo "Offline"; ?></p>
+              </div>
+              </td><td>
+              	<span onClick='javascript:document.<?php echo $perfil ?>.submit();' class='icono' alt="Ver perfil" title="Ver perfil">
+              	<img src='img/casa.png' class='miniatura' >
+              	</span><span onClick='javascript:document.<?php echo $chatear ?>.submit();' class='icono' alt="Enviar mensaje"  title="Enviar mensaje">
+              	<img src='img/email.png' class='miniatura'>
+              	</span><span onClick='javascript:document.<?php echo $borrar ?>.submit();' class='icono' alt="Borrar amigo"  title="Borrar amigo">
+              	<img src='img/cancelar.png' class='miniatura'>
+              	</span>
+              	
+              </td></tr>
+            </div>
+            <?php
+            }
+            ?>
+      </li>
+      <?php
 		}
 		echo "</table>";
 	   	$amigos->close();

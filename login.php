@@ -1,6 +1,5 @@
-<style>
-  body {background-color: coral;}
-</style>
+<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="chat/style.css">
 <?php
 $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
 $clave = isset($_POST['clave']) ? $_POST['clave'] : '';

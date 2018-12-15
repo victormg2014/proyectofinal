@@ -1,11 +1,18 @@
 <?php
 include("connect.php");
+include("online.php");
 session_start();
+usuarios_activos(); 
 $usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
+if ($_SESSION['username'] == null){
+  header('Location: index.php');
+}
 ?>
 <html>
 <head>
+  <meta http-equiv="refresh" content="30">
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="chat/style.css">
 	<style>
 		body {background-color: coral;}
 		img {width: 200px; height: 200px;}
@@ -37,7 +44,7 @@ $usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
 <p/>
 
 <?php
-$query = "SELECT ruta FROM publicaciones WHERE usuario = '" . $_SESSION['username'] . "'";
+$query = "SELECT ruta, contenido, id FROM publicaciones WHERE usuario = '" . $_SESSION['username'] . "'";
 if ($resultado = $conexion->query($query)) {
 	?>
 	<div class="container">
@@ -51,7 +58,7 @@ if ($resultado = $conexion->query($query)) {
   		<div class="col-md-8">
   			<h2>Galería del perfil</h2>
   			<form enctype="multipart/form-data" action="subir.php" method="POST">
-			<input name="subir" type="file" required/>
+			<input name="subir" type="file" required/><input name="contenido" placeholder="Contenido" required/>
 			<input type="submit" value="Subir archivo" />
 			</form>
   			<div class="row">
@@ -60,16 +67,16 @@ if ($resultado = $conexion->query($query)) {
 ?>	
     <div class="col-md-4">
       <div class="thumbnail">
-        <a href="/w3images/lights.jpg" target="_blank">
+        <a href=<?php echo "publicacion.php?visualizar=" . $fila[2] ?> target="_blank">
+          <input type="hidden" name="visualizar" value= <?php echo $fila[0] ?>>
           <img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%">
           <div class="caption">
-            <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+            <p><?php echo $fila[1] ?></p>
           </div>
         </a>
       </div>
     </div>
-  
-<?php
+<?php  
 }
 	echo "</div></div>";
    	$resultado->close();

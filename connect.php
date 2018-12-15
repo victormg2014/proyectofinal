@@ -8,5 +8,9 @@ $db_name = "usuarios";
 $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
 
 function formatearFecha($fecha){
-	return date('g:i a', strtotime($fecha));
+	return date('d/m/Y - H:i', strtotime($fecha));
 }
+function comentarioFecha($fecha){
+	return date('d/m/Y - H:i', strtotime($fecha));
+}
+?>

@@ -9,7 +9,6 @@ if ($sesion != null){
 if (!$conexion) {
     die("Conexi&oacute;n fallida: " . mysqli_connect_error());
 }
-echo "Conexi&oacute;n correcta";
 mysqli_close($conexion);
 ?>
 <head>
@@ -17,6 +16,8 @@ mysqli_close($conexion);
 		body {background-color: coral;}
 		#centrar {margin-top: 20%;}
 	</style>
+	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
+  	<link rel="stylesheet" type="text/css" href="chat/style.css">
 </head>
 <body>
 	<div align="center">

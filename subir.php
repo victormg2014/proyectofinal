@@ -12,6 +12,7 @@ if ($resultado = $conexion->query($query)) {
 }
 
 $usuario = $_SESSION['username'];
+$contenido = $_POST['contenido'];
 
 // Crea un directorio para insertar las imágenes con el nombre del usuario
 if (!file_exists($_SESSION['username'])) {
@@ -26,12 +27,12 @@ $target_path = $usuario . "/";
 $target_path = $target_path . $nombre;
 if(move_uploaded_file($_FILES['subir']['tmp_name'], $target_path)) { echo "El archivo ". basename( $_FILES['subir']['name']). " ha sido subido";
 } else{
-echo "Ha ocurrido un error, trate de nuevo!";
+echo "Ha ocurrido un error, intentelo de nuevo";
 }
 
-$query = "INSERT INTO publicaciones (usuario, ruta) VALUES ('$usuario', '$publicacion')";
+$query = "INSERT INTO publicaciones (usuario, ruta, contenido) VALUES ('$usuario', '$publicacion', '$contenido')";
 if ($conexion->query($query) === TRUE) {
-	echo "<div align='center'/><h2>Se ha a&ntilde;adido correctamente a la BD</h2><br/>";
+	header('Location: perfil.php');
 }
 else {
 	echo "Error al a&ntilde;adir a la BD." . $query . "<br>" . $conexion->error; 
