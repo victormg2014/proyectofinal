@@ -2,6 +2,8 @@
 <head>
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="chat/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
 <?php
@@ -26,6 +28,9 @@ if ($_SESSION['username'] == null){
       </li>
       <li class="nav-item">
         <a class="nav-link" href="explorar.php">Perfiles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="modificar.php">Modificar perfil</a>
       </li>
     </ul>
     <span class="navbar-text">

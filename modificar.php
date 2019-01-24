@@ -1,3 +1,6 @@
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
 <?php
 include("connect.php");
 include("online.php");
@@ -28,8 +31,8 @@ if ($_SESSION['username'] == null){
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="perfil.php">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="perfil.php">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="chat.php">Chat</a>
@@ -37,8 +40,8 @@ if ($_SESSION['username'] == null){
       <li class="nav-item">
         <a class="nav-link" href="explorar.php">Perfiles</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="modificar.php">Modificar perfil</a>
+      <li class="nav-item active">
+        <a class="nav-link" href="modificar.php">Modificar perfil<span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <span class="navbar-text">
@@ -47,43 +50,33 @@ if ($_SESSION['username'] == null){
   </div>
 </nav>
 <p/>
-
 <?php
-$query = "SELECT ruta, contenido, id FROM publicaciones WHERE usuario = '" . $_SESSION['username'] . "'";
-if ($resultado = $conexion->query($query)) {
-	?>
-	<div class="container">
-  	<div class="row">
-  		<div class="col-md-4">
-  		<h2>Amigos</h2>
-  		<?php
-  			include 'amigos.php';
-  		?>
-  		</div>
-  		<div class="col-md-8">
-  			<h2>Galería del perfil</h2>
-  			<form enctype="multipart/form-data" action="subir.php" method="POST">
-			<input name="subir" type="file" required/><input name="contenido" placeholder="Contenido" required/>
-			<input type="submit" value="Subir archivo" />
-			</form>
-  			<div class="row">
-	<?php
-	while ($fila = $resultado->fetch_row()) {		
-?>	
-    <div class="col-md-4">
-      <div class="thumbnail">
-        <a href=<?php echo "publicacion.php?visualizar=" . $fila[2] ?> target="_blank">
-          <input type="hidden" name="visualizar" value= <?php echo $fila[0] ?>>
-          <img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%">
-          <div class="caption">
-            <p><?php echo $fila[1] ?></p>
-          </div>
-        </a>
-      </div>
-    </div>
-<?php  
+$pdo = new PDO('mysql:host=localhost;dbname=usuarios', 'root', '');
+$datos = $pdo->query("SELECT * FROM cuenta WHERE usuario = '" . $_SESSION['username'] . "'");
+
+while ($row = $datos->fetch()) {
+    $usuario = $row['usuario'];
+    $nombre = $row['nombre'];
+    $perfil = $row['ruta_foto'];
 }
-	echo "</div></div>";
-   	$resultado->close();
-};
+$imagen = "<img src='" . $perfil . "'>";
 ?>
+<div class="container">
+  <form method="post" action="cambiar.php" enctype="multipart/form-data">
+  <div align="center">
+    <h2>Modificar perfil</h2>
+    <h4>Usuario: <a style="color:#6209B5"><?php echo $usuario ?></a></h4>
+    <table>
+      <tr>
+        <td><h4>Foto:</h4></td><td><?php echo $imagen ?></td><td><input type="file" name="foto"></td>
+      </tr>
+      <tr>
+        <td><h4>Nombre:</h4></td><td><h5 style="color: #6209B5"><?php echo $nombre ?></h5></td><td><input type="text" name="nombre" placeholder="Nuevo nombre"></td>
+      </tr>
+      <tr>
+        <td><input type="submit" value="Modificar"></td>
+      </tr>
+    </table>
+  </div>
+  </form>
+</div>

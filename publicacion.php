@@ -14,8 +14,9 @@ if ($comentario != null){
 	<style>
 		img {width: 400px; height: 400px;}
 	</style>
-  <link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="chat/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,7 +26,7 @@ if ($comentario != null){
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="perfil.php">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
@@ -33,6 +34,9 @@ if ($comentario != null){
       </li>
       <li class="nav-item">
         <a class="nav-link" href="explorar.php">Perfiles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="modificar.php">Modificar perfil</a>
       </li>
     </ul>
     <span class="navbar-text">

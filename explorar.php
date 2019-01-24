@@ -8,7 +8,9 @@ if ($_SESSION['username'] == null){
 <html>
 <head>
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="chat/style.css">
+	<link rel="stylesheet" type="text/css" href="chat/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
 	<style>
 		img {width: 200px; height: 200px;}
 	</style>
@@ -29,6 +31,9 @@ if ($_SESSION['username'] == null){
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="explorar.php">Perfiles<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="modificar.php">Modificar perfil</a>
       </li>
     </ul>
     <span class="navbar-text">
