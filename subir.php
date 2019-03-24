@@ -13,6 +13,7 @@ if ($resultado = $conexion->query($query)) {
 
 $usuario = $_SESSION['username'];
 $contenido = $_POST['contenido'];
+$formato = $_POST['formato'];
 
 // Crea un directorio para insertar las imágenes con el nombre del usuario
 if (!file_exists($_SESSION['username'])) {
@@ -20,7 +21,15 @@ if (!file_exists($_SESSION['username'])) {
 }
 
 // Utiliza el nuevo id para renombrar la imagen que va a subir y la ruta
-$nombre = $siguiente . '.jpg';
+
+if ($formato == 'video') {
+	$nombre = $siguiente . '.mp4';
+} elseif ($formato == 'imagen'){
+	$nombre = $siguiente . '.jpg';
+} elseif ($formato == 'audio'){
+	$nombre = $siguiente . '.mp3';
+}
+
 $publicacion = $usuario . '/' . $nombre;
 
 $target_path = $usuario . "/";
@@ -30,7 +39,7 @@ if(move_uploaded_file($_FILES['subir']['tmp_name'], $target_path)) { echo "El ar
 echo "Ha ocurrido un error, intentelo de nuevo";
 }
 
-$query = "INSERT INTO publicaciones (usuario, ruta, contenido) VALUES ('$usuario', '$publicacion', '$contenido')";
+$query = "INSERT INTO publicaciones (usuario, ruta, contenido, formato) VALUES ('$usuario', '$publicacion', '$contenido', '$formato')";
 if ($conexion->query($query) === TRUE) {
 	header('Location: perfil.php');
 }

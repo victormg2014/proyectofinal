@@ -39,18 +39,25 @@
 
 		<?php
 			if (isset($_POST['enviar'])) {
-				
+
+				$algoritmo = MCRYPT_BLOWFISH;
+				$modo = MCRYPT_MODE_CBC;
 				$nombre = $_SESSION['username'];
+				$key = $nombre . '|' . $_SESSION['destino'];
 				$mensaje = $_POST['mensaje'];
+				$vector = 12121212;
 
+				$datos_encriptados = mcrypt_encrypt($algoritmo, $key, $mensaje, $modo, $vector);
+				$texto = base64_encode($datos_encriptados);
+				
+				$pdo = new PDO('mysql:host=localhost;dbname=usuarios', 'root', '');
+				$insertar = "INSERT INTO chat (usuario, destino, mensaje) VALUES (?,?,?)";
 
-				$consulta = "INSERT INTO chat (usuario, destino, mensaje) VALUES ('$nombre', '" . $_SESSION['destino'] . "', '$mensaje');";
-
-				$ejecutar = $conexion->query($consulta);
-
-				if ($ejecutar) {
-					echo "<embed loop='false' src='sonido.mp3' hidden='true' autoplay='true'>";
-				}
+				$stmt = $pdo->prepare($insertar);
+				$stmt->bindValue(1, $nombre, PDO::PARAM_STR);
+				$stmt->bindValue(2, $_SESSION['destino'], PDO::PARAM_STR);
+				$stmt->bindValue(3, $texto, PDO::PARAM_STR);
+				$stmt->execute();
 			}
 		?>
 		<form method='post' action='chat/desconectar.php'><input type='submit' value='Salir del chat'></form>
@@ -64,6 +71,3 @@
 	?>
 </body>
 </html>
-<?php
-
-?>

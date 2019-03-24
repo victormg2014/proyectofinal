@@ -40,6 +40,9 @@ $file_name=$_FILES[foto][name];
 if($uploadedfileload=="true"){
 	if(move_uploaded_file ($_FILES[foto][tmp_name], $target_path)){
 	echo " Ha sido subido satisfactoriamente";
+	$pdo = new PDO('mysql:host=localhost;dbname=usuarios', 'root', '');
+	$sentencia = $pdo->prepare("UPDATE cuenta SET ruta_foto=? WHERE usuario=?");
+	$sentencia->execute([$target_path, $usuario]);
 	}else{echo "Error al subir el archivo";}
 }else{echo $msg;}
 
@@ -52,3 +55,4 @@ if ($nombre != null){
 
 header('Location: modificar.php');
 ?>
+<meta http-equiv="Refresh" content="0"; url="modificar.php" />

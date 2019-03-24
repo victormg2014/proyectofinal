@@ -16,7 +16,7 @@ if ($_SESSION['username'] == null){
   <meta http-equiv="refresh" content="30">
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="chat/style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="img/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.js"></script>
 	<style>
 		body {background-color: coral;}

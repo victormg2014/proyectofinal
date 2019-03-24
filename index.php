@@ -26,16 +26,16 @@ mysqli_close($conexion);
 				<img src="img/logo.png">
 			</div>
 			<div class="col-md-4">
-				<form method="post" action="login.php">
-					<h1>Acceso</h1>
+				<form method="post" action="ldap.php">
+					<h1>Acceso mediante LDAP</h1>
 					<br/>
-					Si ya dispones de una cuenta, inicia sesi&oacute;n aqu&iacute;:
+					Si dispones de una cuenta LDAP, inicia sesi&oacute;n aqu&iacute;:
 					<p/><p/>
 					<table>
 						<tr>
 							<td><b>Usuario: </b></td><td><input type="text" name="usuario" required></td>
 						</tr><tr>
-							<td><b>Contraseña: </b></td><td><input type="password" name="clave" required></td>
+							<td><b>Contrase&ntilde;a: </b></td><td><input type="password" name="clave" required></td>
 						</tr><tr>	
 							<td><input type="submit" value="Acceder"></td><td></td>
 						</tr>
@@ -50,9 +50,11 @@ mysqli_close($conexion);
 				<input type="submit" value="Registro" onclick = "location='registro.php'"/>
 			</div>
 		</div>
-		<div align="center">
-			<h3 style="color: #C5140B">&#161;&Uacute;nete a nuestra comunidad&#33;</h3>
-		</div>
+	</div>
+	<div align="center">
+		<form method="post" action="index.php">
+			<input type="submit" value="Volver">
+		</form>
 	</div>
 </body>
 </html>

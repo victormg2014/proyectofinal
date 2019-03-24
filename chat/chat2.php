@@ -18,7 +18,15 @@ session_start();
 				?>
 			</div>
 			<div class="msg_cotainer" style="min-width: 100px; max-width: 80%;">
-				<?php echo $fila['mensaje']; ?>
+				<?php 
+				$algoritmo = MCRYPT_BLOWFISH;
+				$modo = MCRYPT_MODE_CBC;
+				$vector = 12121212;
+				$datos_encriptados = base64_decode($fila['mensaje']);
+				$clave = $_SESSION['destino'] . "|" . $_SESSION['username'];
+				$desencriptado = mcrypt_decrypt($algoritmo, $clave, $datos_encriptados, $modo, $vector);
+				echo $desencriptado;
+				?>
 			<span class="msg_time"><?php echo formatearFecha($fila['fecha']); ?></span>
 			</div>
 		</div>
@@ -27,7 +35,15 @@ session_start();
 			?>
 			<div class="d-flex justify-content-end mb-4">
 					<div class="msg_cotainer_send" style="min-width: 100px; max-width: 80%;">
-						<?php echo $fila['mensaje']; ?>
+						<?php
+						$algoritmo = MCRYPT_BLOWFISH;
+						$modo = MCRYPT_MODE_CBC;
+						$vector = 12121212;
+						$datos_encriptados = base64_decode($fila['mensaje']);
+						$clave = $_SESSION['username'] . "|" . $_SESSION['destino'];
+						$desencriptado = mcrypt_decrypt($algoritmo, $clave, $datos_encriptados, $modo, $vector);
+						echo $desencriptado;
+						?>
 					<span class="msg_time_send"><?php echo formatearFecha($fila['fecha']); ?></span>
 					</div>
 					<div class="img_cont_msg">

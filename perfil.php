@@ -3,6 +3,7 @@ include("connect.php");
 include("online.php");
 session_start();
 usuarios_activos(); 
+
 $usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
 if ($_SESSION['username'] == null){
   header('Location: index.php');
@@ -13,11 +14,13 @@ if ($_SESSION['username'] == null){
   <meta http-equiv="refresh" content="30">
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="chat/style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="img/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.js"></script>
 	<style>
 		body {background-color: coral;}
 		img {width: 200px; height: 200px;}
+    video {width: 200px; height: 200px;}
+    audio {width: 200px; height: 200px;}
 	</style>
 </head>
 <body>
@@ -47,9 +50,8 @@ if ($_SESSION['username'] == null){
   </div>
 </nav>
 <p/>
-
 <?php
-$query = "SELECT ruta, contenido, id FROM publicaciones WHERE usuario = '" . $_SESSION['username'] . "'";
+$query = "SELECT ruta, contenido, id, formato FROM publicaciones WHERE usuario = '" . $_SESSION['username'] . "'";
 if ($resultado = $conexion->query($query)) {
 	?>
 	<div class="container">
@@ -62,10 +64,9 @@ if ($resultado = $conexion->query($query)) {
   		</div>
   		<div class="col-md-8">
   			<h2>Galería del perfil</h2>
-  			<form enctype="multipart/form-data" action="subir.php" method="POST">
-			<input name="subir" type="file" required/><input name="contenido" placeholder="Contenido" required/>
-			<input type="submit" value="Subir archivo" />
-			</form>
+  			<form action="publicar.php" method="POST">
+			     <input type="submit" value="Nueva publicaci&oacute;n" />
+			  </form>
   			<div class="row">
 	<?php
 	while ($fila = $resultado->fetch_row()) {		
@@ -74,7 +75,16 @@ if ($resultado = $conexion->query($query)) {
       <div class="thumbnail">
         <a href=<?php echo "publicacion.php?visualizar=" . $fila[2] ?> target="_blank">
           <input type="hidden" name="visualizar" value= <?php echo $fila[0] ?>>
-          <img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%">
+          <?php 
+          if ($fila[3] == 'imagen'){
+            ?><img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%"><?php
+          } elseif ($fila[3] == 'audio'){
+            ?><audio src=<?php echo $fila[0] ?> alt="Lights" style="width:100%" controls></audio><?php
+          } elseif ($fila[3] == 'video'){
+            ?><video src=<?php echo $fila[0] ?> alt="Lights" style="width:100%" controls></video><?php
+          }
+          ?>
+          
           <div class="caption">
             <p><?php echo $fila[1] ?></p>
           </div>

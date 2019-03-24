@@ -13,9 +13,11 @@ if ($comentario != null){
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
 	<style>
 		img {width: 400px; height: 400px;}
+    video {width: 400px; height: 400px;}
+    audio {width: 400px; height: 400px;}
 	</style>
   <link rel="stylesheet" type="text/css" href="chat/style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="img/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
@@ -54,18 +56,32 @@ if ($comentario != null){
         $_SESSION['comentario'] = $visualizar;
         header('Location: publicacion.php');
       }
-      $query = "SELECT ruta, contenido FROM publicaciones WHERE id = '" . $visualizar . "'";
+      $query = "SELECT ruta, contenido, formato FROM publicaciones WHERE id = '" . $visualizar . "'";
       if ($resultado = $conexion->query($query)) {
         while ($fila = $resultado->fetch_row()) {  
           $_SESSION['ruta'] = $fila[0];
           $_SESSION['contenido'] = $fila[1];
+          $_SESSION['formato'] = $fila[2];
           ?>
           <?php
         }
       }
       ?>
       <h2>Publicaci&oacute;n</h2>
+      <?php
+      if ($_SESSION['formato'] == 'imagen'){
+      ?>
       <img src= <?php echo $_SESSION['ruta'] ?>><p/>
+      <?php
+      } elseif ($_SESSION['formato'] == 'video'){
+      ?>
+      <video src= <?php echo $_SESSION['ruta'] ?> controls></video><p/>
+      <?php
+      } elseif ($_SESSION['formato'] == 'audio'){
+      ?>
+      <audio src= <?php echo $_SESSION['ruta'] ?> controls></audio><p/>
+      <?php
+      } ?>
       <h5><?php echo $_SESSION['contenido'] ?></h5>
       </div>
       <div class="col-md-6">
