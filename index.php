@@ -15,6 +15,7 @@ mysqli_close($conexion);
 	<style>
 		body {background-color: coral;}
 		#centrar {margin-top: 20%;}
+		#login {height: 80px; margin-top: 10px; background-color: #3BB5E7; border-radius: 20px; width: 100%; padding: 20px;}
 	</style>
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
   	<link rel="stylesheet" type="text/css" href="chat/style.css">
@@ -22,39 +23,24 @@ mysqli_close($conexion);
 <body>
 	<div class="container">
   		<div class="row">
-  			<div class="col-md-4">
-				<img src="img/logo.png">
+  			<div align="right" id="login">
+  				<form method="post" action="ldap.php">
+  				<input type="text" name="usuario" placeholder="Usuario" required>
+  				<input type="password" name="clave" placeholder="Contrase&ntilde;a" required>
+  				<input type="submit" class="boton" value="Conectar">
+  				</form>
+  			</div>
+  		</div>
+  		<div class="row">
+  			<div class="col-md-6" style="background-color: #531CF0; border-radius: 20px; padding: 20px;">
+  				<div align="center">
+					<img src="img/logo.png">
+				</div>
 			</div>
-			<div class="col-md-4">
-				<form method="post" action="ldap.php">
-					<h1>Acceso mediante LDAP</h1>
-					<br/>
-					Si dispones de una cuenta LDAP, inicia sesi&oacute;n aqu&iacute;:
-					<p/><p/>
-					<table>
-						<tr>
-							<td><b>Usuario: </b></td><td><input type="text" name="usuario" required></td>
-						</tr><tr>
-							<td><b>Contrase&ntilde;a: </b></td><td><input type="password" name="clave" required></td>
-						</tr><tr>	
-							<td><input type="submit" value="Acceder"></td><td></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<div class="col-md-4">
-				<h1>Registrate</h1>
-				<br/>
-				Si a&uacute;n no dispones de una cuenta, crea una nueva haciendo clic aqu&iacute;:
-				<br/>
-				<input type="submit" value="Registro" onclick = "location='registro.php'"/>
-			</div>
+			<div class="col-md-6" style="background-color: #1D9BD6; border-radius: 20px;">
+			<?php include("registro.php"); ?>
 		</div>
-	</div>
-	<div align="center">
-		<form method="post" action="index.php">
-			<input type="submit" value="Volver">
-		</form>
+		</div>
 	</div>
 </body>
 </html>

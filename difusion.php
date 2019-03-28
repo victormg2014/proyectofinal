@@ -1,10 +1,29 @@
 <html>
 <head>
-	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
+  <link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="chat/style.css">
   <script src="img/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.js"></script>
   <style>
+  .estilo {height:50px;border: 2px solid #990000; width: 100%;}
+  .casilla{
+    background-color: red;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
+    margin-left: 15px;
+    border-radius: 20px;
+  }
+
+  #checkboxes input[type=checkbox]{
+      display: none;
+  }
+
+  #checkboxes input[type=checkbox]:checked + .casilla{
+      background-color: green;
+  }
+
   .boton {
     -moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
     -webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
@@ -45,6 +64,8 @@
     position:relative;
     top:1px;
   }
+
+
   </style>
 </head>
 <body>
@@ -65,14 +86,14 @@ if ($_SESSION['username'] == null){
       <li class="nav-item">
         <a class="nav-link" href="perfil.php">Home </a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="chat.php">Chat<span class="sr-only">(current)</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="chat.php">Chat</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="explorar.php">Perfiles</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="difusion.php">Difundir mensaje</a>
+      <li class="nav-item active">
+        <a class="nav-link" href="difusion.php">Difundir mensaje<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="modificar.php">Modificar perfil</a>
@@ -85,12 +106,13 @@ if ($_SESSION['username'] == null){
 </nav>
 <p/>
 <div class="container">
-	<div class="row">
-  		<div class="col-md-4" style="background-color: orange; border-radius: 20px; ">
+  <div class="row">
+      <div class="col-md-4" style="background-color: orange; border-radius: 20px; padding-bottom: 20px;">
+        <form method="post" action="difundir.php">
 <?php
 $destino = isset($_SESSION['destino']) ? $_SESSION['destino'] : '';
 //if ($destino != null){
-//	header('Location: chat/chat.php');
+//  header('Location: chat/chat.php');
 //}
 
 $query = "SELECT usuario2 FROM amigos WHERE usuario = '" . $_SESSION['username'] . "'";
@@ -100,12 +122,11 @@ echo "<h2 style='text-align: center;'>Amigos</h2><hr>";
 if ($count != null) {
   if ($resultado = $conexion->query($query)) {
     $num = 0;
+    ?>
+    <div id="checkboxes">
+    <?php
     while ($fila = $resultado->fetch_row()) {
-      $num = $num + 1;
-      $formulario = 'formulario' . $num;
-      printf ("<form name='" . $formulario . "' method='post' action='chat/iniciar.php'><input type='hidden' name='destino' value='" . $fila[0] . "'></form>");
       ?>
-      <li onClick='javascript:document.<?php echo $formulario ?>.submit();' class="lista">
         <div class="d-flex bd-highlight">
           <div class="img_cont">
             <?php
@@ -121,6 +142,8 @@ if ($count != null) {
                 <span><?php echo $fila[0]; ?></span>
                 <p><?php echo $fila[0] . " est&aacute; en l&iacute;nea"; ?></p>
               </div>
+              <input type="checkbox" name="difundir[]" id=<?php echo $fila[0] ?> value=<?php echo $fila[0] ?>>
+              <label class="casilla" for=<?php echo $fila[0] ?>></label>
               </div>
             <?php
             }
@@ -132,21 +155,23 @@ if ($count != null) {
                 <span><?php echo $fila[0]; ?></span>
                 <p><?php echo $fila[0] . " est&aacute; desconectad@"; ?></p>
               </div>
+              <input type="checkbox" name="difundir[]" id=<?php echo $fila[0] ?> value=<?php echo $fila[0] ?>>
+              <label class="casilla" for=<?php echo $fila[0] ?>></label>
             </div>
             <?php
             }
             ?>
-      </li>
       <?php
       }
+      echo "</div>";
     $resultado->close();
   }
 }
 ?>
 </div>
   <div class="col-md-8" style="background-color: #1D9BD6; border-radius: 20px;">
-	<?php
-	include 'chat/chat.php';
-	?>
-
+  <h2 style='text-align: center;'>Mensaje a difundir</h2><hr>
+  <textarea class="estilo" name="mensaje" placeholder="Escribe tu mensaje" required></textarea>
+  <input type="submit" class="boton" value="Enviar">
+</form>
 </div></div>

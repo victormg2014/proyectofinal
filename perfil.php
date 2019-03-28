@@ -18,9 +18,9 @@ if ($_SESSION['username'] == null){
   <script src="bootstrap/js/bootstrap.js"></script>
 	<style>
 		body {background-color: coral;}
-		img {width: 200px; height: 200px;}
-    video {width: 200px; height: 200px;}
-    audio {width: 200px; height: 200px;}
+		img {width: 200px; height: 200px; border-radius: 20px;}
+    video {width: 200px; height: 200px; border-radius: 20px;}
+    audio {width: 200px; height: 200px; border-radius: 20px;}
 	</style>
 </head>
 <body>
@@ -41,6 +41,9 @@ if ($_SESSION['username'] == null){
         <a class="nav-link" href="explorar.php">Perfiles</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="difusion.php">Difundir mensaje</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="modificar.php">Modificar perfil</a>
       </li>
     </ul>
@@ -56,22 +59,25 @@ if ($resultado = $conexion->query($query)) {
 	?>
 	<div class="container">
   	<div class="row">
-  		<div class="col-md-4">
-  		<h2>Amigos</h2>
+  		<div class="col-md-4" style="background-color: orange; border-radius: 20px; padding-bottom: 20px;">
+  		<h2 style="text-align: center;">Amigos</h2>
+      <hr>
   		<?php
   			include 'amigos.php';
   		?>
   		</div>
-  		<div class="col-md-8">
-  			<h2>Galería del perfil</h2>
+  		<div class="col-md-8" style="background-color: #1D9BD6; border-radius: 20px;">
+  			<h2 style="text-align: center;">Galer&iacute;a del perfil</h2><hr>
   			<form action="publicar.php" method="POST">
-			     <input type="submit" value="Nueva publicaci&oacute;n" />
+          <div align="center">
+			     <input type="submit" class="boton" value="Nueva publicaci&oacute;n" />
+         </div>
 			  </form>
   			<div class="row">
 	<?php
 	while ($fila = $resultado->fetch_row()) {		
 ?>	
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-6">
       <div class="thumbnail">
         <a href=<?php echo "publicacion.php?visualizar=" . $fila[2] ?> target="_blank">
           <input type="hidden" name="visualizar" value= <?php echo $fila[0] ?>>
@@ -79,14 +85,13 @@ if ($resultado = $conexion->query($query)) {
           if ($fila[3] == 'imagen'){
             ?><img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%"><?php
           } elseif ($fila[3] == 'audio'){
-            ?><audio src=<?php echo $fila[0] ?> alt="Lights" style="width:100%" controls></audio><?php
+            ?><img src="img/audio.png" alt="Lights" style="width:100%"><?php
           } elseif ($fila[3] == 'video'){
-            ?><video src=<?php echo $fila[0] ?> alt="Lights" style="width:100%" controls></video><?php
+            ?><img src="img/video.png" alt="Lights" style="width:100%"><?php
           }
           ?>
-          
           <div class="caption">
-            <p><?php echo $fila[1] ?></p>
+            <p align="center" style="color: black; background-color: #1176A5;border-radius: 20px;"><?php echo $fila[1] ?></p>
           </div>
         </a>
       </div>

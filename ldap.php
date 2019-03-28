@@ -1,5 +1,5 @@
-include("connect.php");
 <?php
+include("connect.php");
 $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
 $clave = isset($_POST['clave']) ? $_POST['clave'] : '';
 

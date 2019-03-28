@@ -12,13 +12,55 @@
 		#icono:hover #hover-content {
     		display:block;
 		}
+		.boton {
+		    -moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
+		    -webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
+		    box-shadow: 0px 1px 0px 0px #f0f7fa;
+		    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ed39e7), color-stop(1, #b31288));
+		    background:-moz-linear-gradient(top, #ed39e7 5%, #b31288 100%);
+		    background:-webkit-linear-gradient(top, #ed39e7 5%, #b31288 100%);
+		    background:-o-linear-gradient(top, #ed39e7 5%, #b31288 100%);
+		    background:-ms-linear-gradient(top, #ed39e7 5%, #b31288 100%);
+		    background:linear-gradient(to bottom, #ed39e7 5%, #b31288 100%);
+		    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed39e7', endColorstr='#b31288',GradientType=0);
+		    background-color:#ed39e7;
+		    -moz-border-radius:6px;
+		    -webkit-border-radius:6px;
+		    border-radius:6px;
+		    border:1px solid #78008a;
+		    display:inline-block;
+		    cursor:pointer;
+		    color:#ffffff;
+		    font-family:Arial;
+		    font-size:15px;
+		    font-weight:bold;
+		    padding:6px 24px;
+		    text-decoration:none;
+		    text-shadow:0px -1px 0px #5b6178;
+		  }
+		  .boton:hover {
+		    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b31288), color-stop(1, #ed39e7));
+		    background:-moz-linear-gradient(top, #b31288 5%, #ed39e7 100%);
+		    background:-webkit-linear-gradient(top, #b31288 5%, #ed39e7 100%);
+		    background:-o-linear-gradient(top, #b31288 5%, #ed39e7 100%);
+		    background:-ms-linear-gradient(top, #b31288 5%, #ed39e7 100%);
+		    background:linear-gradient(to bottom, #b31288 5%, #ed39e7 100%);
+		    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b31288', endColorstr='#ed39e7',GradientType=0);
+		    background-color:#b31288;
+		  }
+		  .boton:active {
+		    position:relative;
+		    top:1px;
+		  }
 	</style>
 	<link rel='stylesheet' href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 <form method="get">
-	Agregar: <input type="text" name="nombre">
-	<input type="submit">
+	<div align="center">
+		<input type="text" name="nombre" style="border: 2px solid #990000;" placeholder="Buscar usuario">
+		<input type="submit" class="boton" value="Enviar">
+	</div>
 </form>
 <?php
 $usuario = isset($_GET['nombre']) ? $_GET['nombre'] : '';
@@ -70,7 +112,7 @@ $count = mysqli_num_rows($result);
 if ($count != null) {
 	if ($amigos = $conexion->query($query)) {
 		$num = 0;
-		echo "<strong>Lista de amigos:</strong><table>";
+		echo "<hr><table>";
 		while ($fila = $amigos->fetch_row()) {
 			$num = $num + 1;
       		$perfil = 'perfil' . $num;
@@ -127,7 +169,6 @@ if ($count != null) {
               	</span><span onClick='javascript:document.<?php echo $borrar ?>.submit();' class='icono' alt="Borrar amigo"  title="Borrar amigo">
               	<img src='img/cancelar.png' class='miniatura'>
               	</span>
-              	
               </td></tr>
             </div>
             <?php
@@ -148,12 +189,31 @@ $count = mysqli_num_rows($result);
 
 if ($count != null) {
 	if ($amigos = $conexion->query($query)) {
-		echo "<table>";
-		echo "<tr><strong>Peticiones de amistad recibidas:</strong></tr>";
+		echo "<hr>";
 		while ($fila = $amigos->fetch_row()) {
-	    	printf ("<tr><td>" . $fila[0] . "</td><td><form method='post' action='responder.php'><input type='hidden' name='aceptar' value='$fila[0]'><input type='submit' value='Aceptar'></form></td><td><form method='post' action='responder.php'><input type='hidden' name='rechazar' value='$fila[0]'><input type='submit' value='Cancelar'></form></td></tr>");
+			?>
+			<li style="list-style:none;">
+	        <div class="d-flex bd-highlight">
+	        <div class="img_cont">
+	        <?php
+	        $aceptar = $fila[0] . "a";
+	        $rechazar = $fila[0] . "r";
+	        printf ("<form name='$aceptar' method='post' action='responder.php'><input type='hidden' name='aceptar' value='$fila[0]'></form>");
+	        printf ("<form name='$rechazar' method='post' action='responder.php'><input type='hidden' name='rechazar' value='$fila[0]'></form>");
+			$sentencia = $pdo->query("SELECT ruta_foto FROM cuenta WHERE usuario = '$fila[0]'");
+			$datos = $sentencia->fetch();
+			$mostrar = $datos['ruta_foto'];
+			echo "<img src='$mostrar' class='rounded-circle user_img'></div><div class='user_info'>";
+	    	echo "<span>" . $fila[0] . "</span></div><div class='user_info'>";
+	    	?>
+	    	<span onClick='javascript:document.<?php echo $aceptar ?>.submit();' id='icono' alt="Aceptar" title="Aceptar">
+            <img src='img/aceptar.png' class='miniatura' ></span>
+            <span onClick='javascript:document.<?php echo $rechazar ?>.submit();' id='icono' alt="Rechazar" title="Rechazar">
+            <img src='img/cancelar.png' class='miniatura' ></span>
+	    	<?php
+	    	echo "</div></li>";
 		}
-		echo "</table>";
+		
 	   	$amigos->close();
 	}
 }
@@ -165,12 +225,26 @@ $count = mysqli_num_rows($result);
 
 if ($count != null) {
 	if ($amigos = $conexion->query($query)) {
-		echo "<table>";
-		echo "<tr><strong>Peticiones de amistad enviadas:</strong></tr>";
+		echo "<hr>";
 		while ($fila = $amigos->fetch_row()) {
-	    	printf ("<tr><td>" . $fila[1] . "</td><td><form method='post' action='cancelar.php'><input type='hidden' name='nombre' value='$fila[1]'><input type='submit' value='Cancelar'></form></td></tr>");
+			?>
+			<li style="list-style:none;">
+	        <div class="d-flex bd-highlight">
+	        <div class="img_cont">
+	        <?php
+	        $cancelar = $fila[1] . "c";
+	        printf ("<form name='$cancelar' method='post' action='cancelar.php'><input type='hidden' name='nombre' value='$fila[1]'></form>");
+			$sentencia = $pdo->query("SELECT ruta_foto FROM cuenta WHERE usuario = '$fila[1]'");
+			$datos = $sentencia->fetch();
+			$mostrar = $datos['ruta_foto'];
+			echo "<img src='$mostrar' class='rounded-circle user_img'></div><div class='user_info'>";
+	    	echo "<span>" . $fila[1] . "</span>";
+			?>
+			<span onClick='javascript:document.<?php echo $cancelar ?>.submit();' id='icono' alt="Cancelar" title="Cancelar">
+            <img src='img/cancelar.png' class='miniatura' ></span>
+            <?php
+	    	echo "</div></li>";
 		}
-		echo "</table>";
 	   	$amigos->close();
 	}
 }

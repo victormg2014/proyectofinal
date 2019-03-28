@@ -6,7 +6,7 @@ function usuarios_activos()
   	$pass_db = "";
   	$db_name = "usuarios";
 
-	$conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
+	  $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
 
    	$usuario = $_SESSION['username'];
    	$ahora = time();

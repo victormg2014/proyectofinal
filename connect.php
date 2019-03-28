@@ -13,4 +13,6 @@ function formatearFecha($fecha){
 function comentarioFecha($fecha){
 	return date('d/m/Y - H:i', strtotime($fecha));
 }
+
+$pdo = new PDO('mysql:host=localhost;dbname=usuarios', 'root', '');
 ?>

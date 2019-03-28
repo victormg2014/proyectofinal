@@ -12,7 +12,7 @@ if ($_SESSION['username'] == null){
 	<script src="img/jquery.min.js"></script>
 	<script src="bootstrap/js/bootstrap.js"></script>
 	<style>
-		img {width: 200px; height: 200px;}
+    img {width: 200px; height: 200px; border-radius: 20px;}
 	</style>
 </head>
 <body>
@@ -33,6 +33,9 @@ if ($_SESSION['username'] == null){
         <a class="nav-link" href="explorar.php">Perfiles<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="difusion.php">Difundir mensaje</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="modificar.php">Modificar perfil</a>
       </li>
     </ul>
@@ -48,8 +51,8 @@ if ($resultado = $conexion->query($consulta)) {
 	?>
 	<div class="container">
   	<div class="row">
-  		<div class="col-md-4">
-  			<h2>Amigos:</h2>
+  		<div class="col-md-4" style="background-color: orange; border-radius: 20px; padding-bottom: 20px;">
+  			<h2 style='text-align: center;'>Amigos</h2><hr>
 	<?php
 	$num = 0;
    	while ($fila = $resultado->fetch_row()) {
@@ -96,28 +99,36 @@ if ($recibir != null){
 	$usuario = isset($_POST['nombre']) ? $_POST['nombre'] : '';
 }
 
-$query = "SELECT ruta, contenido, id FROM publicaciones WHERE usuario = '" . $usuario . "'";
+$query = "SELECT ruta, contenido, id, formato FROM publicaciones WHERE usuario = '" . $usuario . "'";
 if ($resultado = $conexion->query($query)) {
 	?>
-  	</div><div class="col-md-8">
+  	</div><div class="col-md-8" style="background-color: #1D9BD6; border-radius: 20px;">
   		<?php
   		if ($usuario != null){
-  		 echo "<h2>Publicaciones de: <a style='color: blue'>$usuario </a></h2>";
+  		 echo "<h2 style='text-align: center;'>Publicaciones de: <a style='color: blue'>$usuario </a></h2><hr><p/>";
   		} else {
-  			echo "<h3>Haz clic sobre un usuario para ver sus publicaciones.</h3>";
+  			echo "<h3 style='text-align: center;'>Haz clic sobre un usuario para ver sus publicaciones.</h3>";
   		}
   		?>
   		<div class="row">
 	<?php
 	while ($fila = $resultado->fetch_row()) {
 		?>
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-6">
       <div class="thumbnail">
         <a href=<?php echo "publicacion.php?visualizar=" . $fila[2] ?> target="_blank">
           <input type="hidden" name="visualizar" value= <?php echo $fila[0] ?>>
-          <img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%">
+          <?php 
+          if ($fila[3] == 'imagen'){
+            ?><img src=<?php echo $fila[0] ?> alt="Lights" style="width:100%"><?php
+          } elseif ($fila[3] == 'audio'){
+            ?><img src="img/audio.png" alt="Lights" style="width:100%"><?php
+          } elseif ($fila[3] == 'video'){
+            ?><img src="img/video.png" alt="Lights" style="width:100%"><?php
+          }
+          ?>
           <div class="caption">
-            <p><?php echo $fila[1] ?></p>
+            <p align="center" style="color: black; background-color: #1176A5;border-radius: 20px;"><?php echo $fila[1] ?></p>
           </div>
         </a>
       </div>
